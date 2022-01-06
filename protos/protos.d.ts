@@ -1,4 +1,4 @@
-// Copyright 2021 Google LLC
+// Copyright 2022 Google LLC
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -5417,6 +5417,9 @@ export namespace google {
 
                         /** Backup encryptionInfo */
                         encryptionInfo?: (google.spanner.admin.database.v1.IEncryptionInfo|null);
+
+                        /** Backup databaseDialect */
+                        databaseDialect?: (google.spanner.admin.database.v1.DatabaseDialect|keyof typeof google.spanner.admin.database.v1.DatabaseDialect|null);
                     }
 
                     /** Represents a Backup. */
@@ -5454,6 +5457,9 @@ export namespace google {
 
                         /** Backup encryptionInfo. */
                         public encryptionInfo?: (google.spanner.admin.database.v1.IEncryptionInfo|null);
+
+                        /** Backup databaseDialect. */
+                        public databaseDialect: (google.spanner.admin.database.v1.DatabaseDialect|keyof typeof google.spanner.admin.database.v1.DatabaseDialect);
 
                         /**
                          * Creates a new Backup instance using the specified properties.
@@ -6955,6 +6961,13 @@ export namespace google {
                         }
                     }
 
+                    /** DatabaseDialect enum. */
+                    enum DatabaseDialect {
+                        DATABASE_DIALECT_UNSPECIFIED = 0,
+                        GOOGLE_STANDARD_SQL = 1,
+                        POSTGRESQL = 2
+                    }
+
                     /** Represents a DatabaseAdmin */
                     class DatabaseAdmin extends $protobuf.rpc.Service {
 
@@ -7464,6 +7477,9 @@ export namespace google {
 
                         /** Database defaultLeader */
                         defaultLeader?: (string|null);
+
+                        /** Database databaseDialect */
+                        databaseDialect?: (google.spanner.admin.database.v1.DatabaseDialect|keyof typeof google.spanner.admin.database.v1.DatabaseDialect|null);
                     }
 
                     /** Represents a Database. */
@@ -7501,6 +7517,9 @@ export namespace google {
 
                         /** Database defaultLeader. */
                         public defaultLeader: string;
+
+                        /** Database databaseDialect. */
+                        public databaseDialect: (google.spanner.admin.database.v1.DatabaseDialect|keyof typeof google.spanner.admin.database.v1.DatabaseDialect);
 
                         /**
                          * Creates a new Database instance using the specified properties.
@@ -7796,6 +7815,9 @@ export namespace google {
 
                         /** CreateDatabaseRequest encryptionConfig */
                         encryptionConfig?: (google.spanner.admin.database.v1.IEncryptionConfig|null);
+
+                        /** CreateDatabaseRequest databaseDialect */
+                        databaseDialect?: (google.spanner.admin.database.v1.DatabaseDialect|keyof typeof google.spanner.admin.database.v1.DatabaseDialect|null);
                     }
 
                     /** Represents a CreateDatabaseRequest. */
@@ -7818,6 +7840,9 @@ export namespace google {
 
                         /** CreateDatabaseRequest encryptionConfig. */
                         public encryptionConfig?: (google.spanner.admin.database.v1.IEncryptionConfig|null);
+
+                        /** CreateDatabaseRequest databaseDialect. */
+                        public databaseDialect: (google.spanner.admin.database.v1.DatabaseDialect|keyof typeof google.spanner.admin.database.v1.DatabaseDialect);
 
                         /**
                          * Creates a new CreateDatabaseRequest instance using the specified properties.

@@ -1309,6 +1309,13 @@
                               "options": {
                                 "(google.api.field_behavior)": "OUTPUT_ONLY"
                               }
+                            },
+                            "databaseDialect": {
+                              "type": "DatabaseDialect",
+                              "id": 10,
+                              "options": {
+                                "(google.api.field_behavior)": "OUTPUT_ONLY"
+                              }
                             }
                           },
                           "nested": {
@@ -1611,6 +1618,13 @@
                                 "CUSTOMER_MANAGED_ENCRYPTION": 2
                               }
                             }
+                          }
+                        },
+                        "DatabaseDialect": {
+                          "values": {
+                            "DATABASE_DIALECT_UNSPECIFIED": 0,
+                            "GOOGLE_STANDARD_SQL": 1,
+                            "POSTGRESQL": 2
                           }
                         },
                         "DatabaseAdmin": {
@@ -2081,6 +2095,13 @@
                               "options": {
                                 "(google.api.field_behavior)": "OUTPUT_ONLY"
                               }
+                            },
+                            "databaseDialect": {
+                              "type": "DatabaseDialect",
+                              "id": 10,
+                              "options": {
+                                "(google.api.field_behavior)": "OUTPUT_ONLY"
+                              }
                             }
                           },
                           "nested": {
@@ -2157,6 +2178,13 @@
                               "id": 4,
                               "options": {
                                 "(google.api.field_behavior)": "OPTIONAL"
+                              }
+                            },
+                            "databaseDialect": {
+                              "type": "DatabaseDialect",
+                              "id": 5,
+                              "options": {
+                                "(google.api.field_behavior)": "OUTPUT_ONLY"
                               }
                             }
                           }

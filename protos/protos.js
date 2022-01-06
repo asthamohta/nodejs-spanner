@@ -1,4 +1,4 @@
-// Copyright 2021 Google LLC
+// Copyright 2022 Google LLC
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -13978,6 +13978,7 @@
                              * @property {google.spanner.admin.database.v1.Backup.State|null} [state] Backup state
                              * @property {Array.<string>|null} [referencingDatabases] Backup referencingDatabases
                              * @property {google.spanner.admin.database.v1.IEncryptionInfo|null} [encryptionInfo] Backup encryptionInfo
+                             * @property {google.spanner.admin.database.v1.DatabaseDialect|null} [databaseDialect] Backup databaseDialect
                              */
     
                             /**
@@ -14069,6 +14070,14 @@
                             Backup.prototype.encryptionInfo = null;
     
                             /**
+                             * Backup databaseDialect.
+                             * @member {google.spanner.admin.database.v1.DatabaseDialect} databaseDialect
+                             * @memberof google.spanner.admin.database.v1.Backup
+                             * @instance
+                             */
+                            Backup.prototype.databaseDialect = 0;
+    
+                            /**
                              * Creates a new Backup instance using the specified properties.
                              * @function create
                              * @memberof google.spanner.admin.database.v1.Backup
@@ -14111,6 +14120,8 @@
                                     $root.google.spanner.admin.database.v1.EncryptionInfo.encode(message.encryptionInfo, writer.uint32(/* id 8, wireType 2 =*/66).fork()).ldelim();
                                 if (message.versionTime != null && Object.hasOwnProperty.call(message, "versionTime"))
                                     $root.google.protobuf.Timestamp.encode(message.versionTime, writer.uint32(/* id 9, wireType 2 =*/74).fork()).ldelim();
+                                if (message.databaseDialect != null && Object.hasOwnProperty.call(message, "databaseDialect"))
+                                    writer.uint32(/* id 10, wireType 0 =*/80).int32(message.databaseDialect);
                                 return writer;
                             };
     
@@ -14173,6 +14184,9 @@
                                         break;
                                     case 8:
                                         message.encryptionInfo = $root.google.spanner.admin.database.v1.EncryptionInfo.decode(reader, reader.uint32());
+                                        break;
+                                    case 10:
+                                        message.databaseDialect = reader.int32();
                                         break;
                                     default:
                                         reader.skipType(tag & 7);
@@ -14254,6 +14268,15 @@
                                     if (error)
                                         return "encryptionInfo." + error;
                                 }
+                                if (message.databaseDialect != null && message.hasOwnProperty("databaseDialect"))
+                                    switch (message.databaseDialect) {
+                                    default:
+                                        return "databaseDialect: enum value expected";
+                                    case 0:
+                                    case 1:
+                                    case 2:
+                                        break;
+                                    }
                                 return null;
                             };
     
@@ -14323,6 +14346,20 @@
                                         throw TypeError(".google.spanner.admin.database.v1.Backup.encryptionInfo: object expected");
                                     message.encryptionInfo = $root.google.spanner.admin.database.v1.EncryptionInfo.fromObject(object.encryptionInfo);
                                 }
+                                switch (object.databaseDialect) {
+                                case "DATABASE_DIALECT_UNSPECIFIED":
+                                case 0:
+                                    message.databaseDialect = 0;
+                                    break;
+                                case "GOOGLE_STANDARD_SQL":
+                                case 1:
+                                    message.databaseDialect = 1;
+                                    break;
+                                case "POSTGRESQL":
+                                case 2:
+                                    message.databaseDialect = 2;
+                                    break;
+                                }
                                 return message;
                             };
     
@@ -14354,6 +14391,7 @@
                                     object.state = options.enums === String ? "STATE_UNSPECIFIED" : 0;
                                     object.encryptionInfo = null;
                                     object.versionTime = null;
+                                    object.databaseDialect = options.enums === String ? "DATABASE_DIALECT_UNSPECIFIED" : 0;
                                 }
                                 if (message.name != null && message.hasOwnProperty("name"))
                                     object.name = message.name;
@@ -14379,6 +14417,8 @@
                                     object.encryptionInfo = $root.google.spanner.admin.database.v1.EncryptionInfo.toObject(message.encryptionInfo, options);
                                 if (message.versionTime != null && message.hasOwnProperty("versionTime"))
                                     object.versionTime = $root.google.protobuf.Timestamp.toObject(message.versionTime, options);
+                                if (message.databaseDialect != null && message.hasOwnProperty("databaseDialect"))
+                                    object.databaseDialect = options.enums === String ? $root.google.spanner.admin.database.v1.DatabaseDialect[message.databaseDialect] : message.databaseDialect;
                                 return object;
                             };
     
@@ -17719,6 +17759,22 @@
                             return EncryptionInfo;
                         })();
     
+                        /**
+                         * DatabaseDialect enum.
+                         * @name google.spanner.admin.database.v1.DatabaseDialect
+                         * @enum {number}
+                         * @property {number} DATABASE_DIALECT_UNSPECIFIED=0 DATABASE_DIALECT_UNSPECIFIED value
+                         * @property {number} GOOGLE_STANDARD_SQL=1 GOOGLE_STANDARD_SQL value
+                         * @property {number} POSTGRESQL=2 POSTGRESQL value
+                         */
+                        v1.DatabaseDialect = (function() {
+                            var valuesById = {}, values = Object.create(valuesById);
+                            values[valuesById[0] = "DATABASE_DIALECT_UNSPECIFIED"] = 0;
+                            values[valuesById[1] = "GOOGLE_STANDARD_SQL"] = 1;
+                            values[valuesById[2] = "POSTGRESQL"] = 2;
+                            return values;
+                        })();
+    
                         v1.DatabaseAdmin = (function() {
     
                             /**
@@ -18577,6 +18633,7 @@
                              * @property {string|null} [versionRetentionPeriod] Database versionRetentionPeriod
                              * @property {google.protobuf.ITimestamp|null} [earliestVersionTime] Database earliestVersionTime
                              * @property {string|null} [defaultLeader] Database defaultLeader
+                             * @property {google.spanner.admin.database.v1.DatabaseDialect|null} [databaseDialect] Database databaseDialect
                              */
     
                             /**
@@ -18668,6 +18725,14 @@
                             Database.prototype.defaultLeader = "";
     
                             /**
+                             * Database databaseDialect.
+                             * @member {google.spanner.admin.database.v1.DatabaseDialect} databaseDialect
+                             * @memberof google.spanner.admin.database.v1.Database
+                             * @instance
+                             */
+                            Database.prototype.databaseDialect = 0;
+    
+                            /**
                              * Creates a new Database instance using the specified properties.
                              * @function create
                              * @memberof google.spanner.admin.database.v1.Database
@@ -18710,6 +18775,8 @@
                                         $root.google.spanner.admin.database.v1.EncryptionInfo.encode(message.encryptionInfo[i], writer.uint32(/* id 8, wireType 2 =*/66).fork()).ldelim();
                                 if (message.defaultLeader != null && Object.hasOwnProperty.call(message, "defaultLeader"))
                                     writer.uint32(/* id 9, wireType 2 =*/74).string(message.defaultLeader);
+                                if (message.databaseDialect != null && Object.hasOwnProperty.call(message, "databaseDialect"))
+                                    writer.uint32(/* id 10, wireType 0 =*/80).int32(message.databaseDialect);
                                 return writer;
                             };
     
@@ -18772,6 +18839,9 @@
                                         break;
                                     case 9:
                                         message.defaultLeader = reader.string();
+                                        break;
+                                    case 10:
+                                        message.databaseDialect = reader.int32();
                                         break;
                                     default:
                                         reader.skipType(tag & 7);
@@ -18856,6 +18926,15 @@
                                 if (message.defaultLeader != null && message.hasOwnProperty("defaultLeader"))
                                     if (!$util.isString(message.defaultLeader))
                                         return "defaultLeader: string expected";
+                                if (message.databaseDialect != null && message.hasOwnProperty("databaseDialect"))
+                                    switch (message.databaseDialect) {
+                                    default:
+                                        return "databaseDialect: enum value expected";
+                                    case 0:
+                                    case 1:
+                                    case 2:
+                                        break;
+                                    }
                                 return null;
                             };
     
@@ -18925,6 +19004,20 @@
                                 }
                                 if (object.defaultLeader != null)
                                     message.defaultLeader = String(object.defaultLeader);
+                                switch (object.databaseDialect) {
+                                case "DATABASE_DIALECT_UNSPECIFIED":
+                                case 0:
+                                    message.databaseDialect = 0;
+                                    break;
+                                case "GOOGLE_STANDARD_SQL":
+                                case 1:
+                                    message.databaseDialect = 1;
+                                    break;
+                                case "POSTGRESQL":
+                                case 2:
+                                    message.databaseDialect = 2;
+                                    break;
+                                }
                                 return message;
                             };
     
@@ -18952,6 +19045,7 @@
                                     object.versionRetentionPeriod = "";
                                     object.earliestVersionTime = null;
                                     object.defaultLeader = "";
+                                    object.databaseDialect = options.enums === String ? "DATABASE_DIALECT_UNSPECIFIED" : 0;
                                 }
                                 if (message.name != null && message.hasOwnProperty("name"))
                                     object.name = message.name;
@@ -18974,6 +19068,8 @@
                                 }
                                 if (message.defaultLeader != null && message.hasOwnProperty("defaultLeader"))
                                     object.defaultLeader = message.defaultLeader;
+                                if (message.databaseDialect != null && message.hasOwnProperty("databaseDialect"))
+                                    object.databaseDialect = options.enums === String ? $root.google.spanner.admin.database.v1.DatabaseDialect[message.databaseDialect] : message.databaseDialect;
                                 return object;
                             };
     
@@ -19482,6 +19578,7 @@
                              * @property {string|null} [createStatement] CreateDatabaseRequest createStatement
                              * @property {Array.<string>|null} [extraStatements] CreateDatabaseRequest extraStatements
                              * @property {google.spanner.admin.database.v1.IEncryptionConfig|null} [encryptionConfig] CreateDatabaseRequest encryptionConfig
+                             * @property {google.spanner.admin.database.v1.DatabaseDialect|null} [databaseDialect] CreateDatabaseRequest databaseDialect
                              */
     
                             /**
@@ -19533,6 +19630,14 @@
                             CreateDatabaseRequest.prototype.encryptionConfig = null;
     
                             /**
+                             * CreateDatabaseRequest databaseDialect.
+                             * @member {google.spanner.admin.database.v1.DatabaseDialect} databaseDialect
+                             * @memberof google.spanner.admin.database.v1.CreateDatabaseRequest
+                             * @instance
+                             */
+                            CreateDatabaseRequest.prototype.databaseDialect = 0;
+    
+                            /**
                              * Creates a new CreateDatabaseRequest instance using the specified properties.
                              * @function create
                              * @memberof google.spanner.admin.database.v1.CreateDatabaseRequest
@@ -19565,6 +19670,8 @@
                                         writer.uint32(/* id 3, wireType 2 =*/26).string(message.extraStatements[i]);
                                 if (message.encryptionConfig != null && Object.hasOwnProperty.call(message, "encryptionConfig"))
                                     $root.google.spanner.admin.database.v1.EncryptionConfig.encode(message.encryptionConfig, writer.uint32(/* id 4, wireType 2 =*/34).fork()).ldelim();
+                                if (message.databaseDialect != null && Object.hasOwnProperty.call(message, "databaseDialect"))
+                                    writer.uint32(/* id 5, wireType 0 =*/40).int32(message.databaseDialect);
                                 return writer;
                             };
     
@@ -19612,6 +19719,9 @@
                                         break;
                                     case 4:
                                         message.encryptionConfig = $root.google.spanner.admin.database.v1.EncryptionConfig.decode(reader, reader.uint32());
+                                        break;
+                                    case 5:
+                                        message.databaseDialect = reader.int32();
                                         break;
                                     default:
                                         reader.skipType(tag & 7);
@@ -19666,6 +19776,15 @@
                                     if (error)
                                         return "encryptionConfig." + error;
                                 }
+                                if (message.databaseDialect != null && message.hasOwnProperty("databaseDialect"))
+                                    switch (message.databaseDialect) {
+                                    default:
+                                        return "databaseDialect: enum value expected";
+                                    case 0:
+                                    case 1:
+                                    case 2:
+                                        break;
+                                    }
                                 return null;
                             };
     
@@ -19697,6 +19816,20 @@
                                         throw TypeError(".google.spanner.admin.database.v1.CreateDatabaseRequest.encryptionConfig: object expected");
                                     message.encryptionConfig = $root.google.spanner.admin.database.v1.EncryptionConfig.fromObject(object.encryptionConfig);
                                 }
+                                switch (object.databaseDialect) {
+                                case "DATABASE_DIALECT_UNSPECIFIED":
+                                case 0:
+                                    message.databaseDialect = 0;
+                                    break;
+                                case "GOOGLE_STANDARD_SQL":
+                                case 1:
+                                    message.databaseDialect = 1;
+                                    break;
+                                case "POSTGRESQL":
+                                case 2:
+                                    message.databaseDialect = 2;
+                                    break;
+                                }
                                 return message;
                             };
     
@@ -19719,6 +19852,7 @@
                                     object.parent = "";
                                     object.createStatement = "";
                                     object.encryptionConfig = null;
+                                    object.databaseDialect = options.enums === String ? "DATABASE_DIALECT_UNSPECIFIED" : 0;
                                 }
                                 if (message.parent != null && message.hasOwnProperty("parent"))
                                     object.parent = message.parent;
@@ -19731,6 +19865,8 @@
                                 }
                                 if (message.encryptionConfig != null && message.hasOwnProperty("encryptionConfig"))
                                     object.encryptionConfig = $root.google.spanner.admin.database.v1.EncryptionConfig.toObject(message.encryptionConfig, options);
+                                if (message.databaseDialect != null && message.hasOwnProperty("databaseDialect"))
+                                    object.databaseDialect = options.enums === String ? $root.google.spanner.admin.database.v1.DatabaseDialect[message.databaseDialect] : message.databaseDialect;
                                 return object;
                             };
     
