@@ -3449,6 +3449,10 @@
                     "structType": {
                       "type": "StructType",
                       "id": 3
+                    },
+                    "typeAnnotation": {
+                      "type": "TypeAnnotationCode",
+                      "id": 4
                     }
                   }
                 },
@@ -3489,6 +3493,13 @@
                     "STRUCT": 9,
                     "NUMERIC": 10,
                     "JSON": 11
+                  }
+                },
+                "TypeAnnotationCode": {
+                  "values": {
+                    "TYPE_ANNOTATION_CODE_UNSPECIFIED": 0,
+                    "INT32": 1,
+                    "PG_NUMERIC": 2
                   }
                 },
                 "Spanner": {

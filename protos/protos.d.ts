@@ -13112,6 +13112,9 @@ export namespace google {
 
                 /** Type structType */
                 structType?: (google.spanner.v1.IStructType|null);
+
+                /** Type typeAnnotation */
+                typeAnnotation?: (google.spanner.v1.TypeAnnotationCode|keyof typeof google.spanner.v1.TypeAnnotationCode|null);
             }
 
             /** Represents a Type. */
@@ -13131,6 +13134,9 @@ export namespace google {
 
                 /** Type structType. */
                 public structType?: (google.spanner.v1.IStructType|null);
+
+                /** Type typeAnnotation. */
+                public typeAnnotation: (google.spanner.v1.TypeAnnotationCode|keyof typeof google.spanner.v1.TypeAnnotationCode);
 
                 /**
                  * Creates a new Type instance using the specified properties.
@@ -13406,6 +13412,13 @@ export namespace google {
                 STRUCT = 9,
                 NUMERIC = 10,
                 JSON = 11
+            }
+
+            /** TypeAnnotationCode enum. */
+            enum TypeAnnotationCode {
+                TYPE_ANNOTATION_CODE_UNSPECIFIED = 0,
+                INT32 = 1,
+                PG_NUMERIC = 2
             }
 
             /** Represents a Spanner */

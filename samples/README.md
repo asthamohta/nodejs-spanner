@@ -59,6 +59,7 @@ and automatic, synchronous replication for high availability.
   * [Rpc-priority](#rpc-priority)
   * [Schema](#schema)
   * [Struct](#struct)
+  * [Lists all databases on the selected instance](#lists-all-databases-on-the-selected-instance)
   * [Timestamp](#timestamp)
   * [Executes a read/write transaction with transaction and request tags](#executes-a-read/write-transaction-with-transaction-and-request-tags)
   * [Transaction](#transaction)
@@ -836,6 +837,23 @@ __Usage:__
 
 
 `node samples/struct.js`
+
+
+-----
+
+
+
+
+### Lists all databases on the selected instance
+
+View the [source code](https://github.com/googleapis/nodejs-spanner/blob/master/samples/test.js).
+
+[![Open in Cloud Shell][shell_img]](https://console.cloud.google.com/cloudshell/open?git_repo=https://github.com/googleapis/nodejs-spanner&page=editor&open_in_editor=samples/test.js,samples/README.md)
+
+__Usage:__
+
+
+`node list-databases.js <INSTANCE_ID> <PROJECT_ID>`
 
 
 -----

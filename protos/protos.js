@@ -32461,6 +32461,7 @@
                      * @property {google.spanner.v1.TypeCode|null} [code] Type code
                      * @property {google.spanner.v1.IType|null} [arrayElementType] Type arrayElementType
                      * @property {google.spanner.v1.IStructType|null} [structType] Type structType
+                     * @property {google.spanner.v1.TypeAnnotationCode|null} [typeAnnotation] Type typeAnnotation
                      */
     
                     /**
@@ -32503,6 +32504,14 @@
                     Type.prototype.structType = null;
     
                     /**
+                     * Type typeAnnotation.
+                     * @member {google.spanner.v1.TypeAnnotationCode} typeAnnotation
+                     * @memberof google.spanner.v1.Type
+                     * @instance
+                     */
+                    Type.prototype.typeAnnotation = 0;
+    
+                    /**
                      * Creates a new Type instance using the specified properties.
                      * @function create
                      * @memberof google.spanner.v1.Type
@@ -32532,6 +32541,8 @@
                             $root.google.spanner.v1.Type.encode(message.arrayElementType, writer.uint32(/* id 2, wireType 2 =*/18).fork()).ldelim();
                         if (message.structType != null && Object.hasOwnProperty.call(message, "structType"))
                             $root.google.spanner.v1.StructType.encode(message.structType, writer.uint32(/* id 3, wireType 2 =*/26).fork()).ldelim();
+                        if (message.typeAnnotation != null && Object.hasOwnProperty.call(message, "typeAnnotation"))
+                            writer.uint32(/* id 4, wireType 0 =*/32).int32(message.typeAnnotation);
                         return writer;
                     };
     
@@ -32574,6 +32585,9 @@
                                 break;
                             case 3:
                                 message.structType = $root.google.spanner.v1.StructType.decode(reader, reader.uint32());
+                                break;
+                            case 4:
+                                message.typeAnnotation = reader.int32();
                                 break;
                             default:
                                 reader.skipType(tag & 7);
@@ -32638,6 +32652,15 @@
                             if (error)
                                 return "structType." + error;
                         }
+                        if (message.typeAnnotation != null && message.hasOwnProperty("typeAnnotation"))
+                            switch (message.typeAnnotation) {
+                            default:
+                                return "typeAnnotation: enum value expected";
+                            case 0:
+                            case 1:
+                            case 2:
+                                break;
+                            }
                         return null;
                     };
     
@@ -32713,6 +32736,20 @@
                                 throw TypeError(".google.spanner.v1.Type.structType: object expected");
                             message.structType = $root.google.spanner.v1.StructType.fromObject(object.structType);
                         }
+                        switch (object.typeAnnotation) {
+                        case "TYPE_ANNOTATION_CODE_UNSPECIFIED":
+                        case 0:
+                            message.typeAnnotation = 0;
+                            break;
+                        case "INT32":
+                        case 1:
+                            message.typeAnnotation = 1;
+                            break;
+                        case "PG_NUMERIC":
+                        case 2:
+                            message.typeAnnotation = 2;
+                            break;
+                        }
                         return message;
                     };
     
@@ -32733,6 +32770,7 @@
                             object.code = options.enums === String ? "TYPE_CODE_UNSPECIFIED" : 0;
                             object.arrayElementType = null;
                             object.structType = null;
+                            object.typeAnnotation = options.enums === String ? "TYPE_ANNOTATION_CODE_UNSPECIFIED" : 0;
                         }
                         if (message.code != null && message.hasOwnProperty("code"))
                             object.code = options.enums === String ? $root.google.spanner.v1.TypeCode[message.code] : message.code;
@@ -32740,6 +32778,8 @@
                             object.arrayElementType = $root.google.spanner.v1.Type.toObject(message.arrayElementType, options);
                         if (message.structType != null && message.hasOwnProperty("structType"))
                             object.structType = $root.google.spanner.v1.StructType.toObject(message.structType, options);
+                        if (message.typeAnnotation != null && message.hasOwnProperty("typeAnnotation"))
+                            object.typeAnnotation = options.enums === String ? $root.google.spanner.v1.TypeAnnotationCode[message.typeAnnotation] : message.typeAnnotation;
                         return object;
                     };
     
@@ -33211,6 +33251,22 @@
                     values[valuesById[9] = "STRUCT"] = 9;
                     values[valuesById[10] = "NUMERIC"] = 10;
                     values[valuesById[11] = "JSON"] = 11;
+                    return values;
+                })();
+    
+                /**
+                 * TypeAnnotationCode enum.
+                 * @name google.spanner.v1.TypeAnnotationCode
+                 * @enum {number}
+                 * @property {number} TYPE_ANNOTATION_CODE_UNSPECIFIED=0 TYPE_ANNOTATION_CODE_UNSPECIFIED value
+                 * @property {number} INT32=1 INT32 value
+                 * @property {number} PG_NUMERIC=2 PG_NUMERIC value
+                 */
+                v1.TypeAnnotationCode = (function() {
+                    var valuesById = {}, values = Object.create(valuesById);
+                    values[valuesById[0] = "TYPE_ANNOTATION_CODE_UNSPECIFIED"] = 0;
+                    values[valuesById[1] = "INT32"] = 1;
+                    values[valuesById[2] = "PG_NUMERIC"] = 2;
                     return values;
                 })();
     
