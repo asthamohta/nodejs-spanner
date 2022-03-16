@@ -41,7 +41,7 @@ async function getBackupOperations(
   // Gets a reference to a Cloud Spanner instance
   const instance = spanner.instance(instanceId);
 
-  // List backup operations
+  // List create backup operations
   try {
     const [backupOperations] = await instance.getBackupOperations({
       filter:
@@ -77,7 +77,7 @@ async function getBackupOperations(
           backupOperation.metadata.value
         );
       console.log(
-        `Copy backup ${metadata.name} copied from source backup ${metadata.sourceBackup} is ` +
+        `Backup ${metadata.name} copied from source backup ${metadata.sourceBackup} is ` +
           `${metadata.progress.progressPercent}% complete.`
       );
     });
