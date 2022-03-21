@@ -34,12 +34,13 @@ function main(
   // const projectId = 'my-project-id';
 
   // Imports the Google Cloud Spanner client library
-  const {Spanner} = require('@google-cloud/spanner');
+  const {Spanner} = require('../build/src/index.js');
   const {PreciseDate} = require('@google-cloud/precise-date');
 
   // Instantiates a client
   const spanner = new Spanner({
     projectId: projectId,
+    apiEndpoint: 'staging-wrenchworks.sandbox.googleapis.com',
   });
 
   async function spannerCopyBackup() {
@@ -95,9 +96,3 @@ process.on('unhandledRejection', err => {
   process.exitCode = 1;
 });
 main(...process.argv.slice(2));
-// main(
-//   'test-cross-region',
-//   'backup007',
-//   'projects/appdev-soda-spanner-staging/instances/test-cross-region/backups/backup123',
-//   'appdev-soda-spanner-staging'
-// );

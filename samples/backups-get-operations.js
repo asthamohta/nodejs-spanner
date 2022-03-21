@@ -65,6 +65,10 @@ async function getBackupOperations(
 
   // List copy backup operations
   try {
+    console.log(
+      '(metadata.@type:type.googleapis.com/google.spanner.admin.database.v1.CopyBackupMetadata) ' +
+        `AND (metadata.source_backup:${backupId})`
+    );
     const [backupOperations] = await instance.getBackupOperations({
       filter:
         '(metadata.@type:type.googleapis.com/google.spanner.admin.database.v1.CopyBackupMetadata) ' +
@@ -86,5 +90,5 @@ async function getBackupOperations(
   }
   // [END spanner_list_backup_operations]
 }
-
-module.exports.getBackupOperations = getBackupOperations;
+getBackupOperations("astha-django","astha-test","backup007","appdev-soda-spanner-staging");
+//module.exports.getBackupOperations = getBackupOperations;
