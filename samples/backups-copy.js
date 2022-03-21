@@ -34,13 +34,12 @@ function main(
   // const projectId = 'my-project-id';
 
   // Imports the Google Cloud Spanner client library
-  const {Spanner} = require('../build/src/index.js');
+  const {Spanner} = require('@google-cloud/spanner');
   const {PreciseDate} = require('@google-cloud/precise-date');
 
   // Instantiates a client
   const spanner = new Spanner({
     projectId: projectId,
-    apiEndpoint: 'staging-wrenchworks.sandbox.googleapis.com',
   });
 
   async function spannerCopyBackup() {

@@ -90,5 +90,4 @@ async function getBackupOperations(
   }
   // [END spanner_list_backup_operations]
 }
-getBackupOperations("astha-django","astha-test","backup007","appdev-soda-spanner-staging");
-//module.exports.getBackupOperations = getBackupOperations;
+module.exports.getBackupOperations = getBackupOperations;
