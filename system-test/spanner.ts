@@ -44,7 +44,7 @@ const RUN_ID = shortUUID();
 const LABEL = `node-spanner-systests-${RUN_ID}`;
 const spanner = new Spanner({
   projectId: process.env.GCLOUD_PROJECT,
-  apiEndpoint: 'staging-wrenchworks.sandbox.googleapis.com',
+  apiEndpoint: process.env.API_ENDPOINT,
 });
 const GAX_OPTIONS: CallOptions = {
   retry: {
