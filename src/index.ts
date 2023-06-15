@@ -132,6 +132,7 @@ export interface CreateInstanceRequest {
   processingUnits?: number;
   displayName?: string;
   labels?: {[k: string]: string} | null;
+  autoscalingConfig?: google.spanner.admin.instance.v1.IAutoscalingConfig | null;
   gaxOptions?: CallOptions;
 }
 export interface CreateInstanceConfigRequest {
@@ -1709,6 +1710,62 @@ class Spanner extends GrpcService {
     }
     return codec.Struct.fromJSON(value);
   }
+  // static _verifyAutoscalingConfig(
+  //   autoscalingConfig:
+  //     | google.spanner.admin.instance.v1.IAutoscalingConfig
+  //     | null
+  //     | undefined
+  // ) {
+  //   if (autoscalingConfig) {
+  //     if (autoscalingConfig.autoscalingLimits) {
+  //       if (
+  //         !(
+  //           (autoscalingConfig.autoscalingLimits.minNodes &&
+  //             autoscalingConfig.autoscalingLimits.maxNodes) ||
+  //           (autoscalingConfig.autoscalingLimits.minProcessingUnits &&
+  //             autoscalingConfig.autoscalingLimits.maxProcessingUnits) ||
+  //           (!autoscalingConfig.autoscalingLimits.minProcessingUnits &&
+  //             !autoscalingConfig.autoscalingLimits.minNodes &&
+  //             !autoscalingConfig.autoscalingLimits.maxProcessingUnits &&
+  //             !autoscalingConfig.autoscalingLimits.maxNodes)
+  //         )
+  //       ) {
+  //         throw new GoogleError(
+  //           'Either both minNode and maxNodes needs to be set or both minProcessingUnits and maxProcessingUnits'
+  //         );
+  //       }
+  //       else if(autoscalingConfig.autoscalingLimits.minNodes || autoscalingConfig.autoscalingLimits.minProcessingUnits){
+  //       //
+  //
+  //       }
+  //     }
+  //     if (autoscalingConfig.autoscalingTargets) {
+  //       if (
+  //         autoscalingConfig.autoscalingTargets
+  //           .highPriorityCpuUtilizationPercent &&
+  //         (autoscalingConfig.autoscalingTargets
+  //           .highPriorityCpuUtilizationPercent > 100 ||
+  //           autoscalingConfig.autoscalingTargets
+  //             .highPriorityCpuUtilizationPercent < 0)
+  //       ) {
+  //         throw new GoogleError(
+  //           'highPriorityCpuUtilizationPercent is percentage and must lie in the range of 0 and 100'
+  //         );
+  //       }
+  //
+  //       if (
+  //         autoscalingConfig.autoscalingTargets.storageUtilizationPercent &&
+  //         (autoscalingConfig.autoscalingTargets.storageUtilizationPercent >
+  //           100 ||
+  //           autoscalingConfig.autoscalingTargets.storageUtilizationPercent < 0)
+  //       ) {
+  //         throw new GoogleError(
+  //           'storageUtilizationPercent is percentage and must lie in the range of 0 and 100'
+  //         );
+  //       }
+  //     }
+  //   }
+  // }
 }
 
 /*! Developer Documentation
@@ -1875,6 +1932,7 @@ export {Transaction};
  */
 import * as protos from '../protos/protos';
 import IInstanceConfig = instanceAdmin.spanner.admin.instance.v1.IInstanceConfig;
+export import AutoscalingConfig = instanceAdmin.spanner.admin.instance.v1.IAutoscalingConfig;
 export {v1, protos};
 export default {Spanner};
 export {Float, Int, Struct, Numeric, PGNumeric, SpannerDate};
