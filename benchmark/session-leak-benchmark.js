@@ -16,12 +16,16 @@
 
 'use strict';
 
-let closeInactiveTransactionsLongRunningTrue = [];
-let closeInactiveTransactionsLongRunningFalse = [];
-let closeInactiveTransactionsRecyclingTrue = [];
-let closeInactiveTransactionsRecyclingFalse = [];
-let transaction_times = [];
-
+const closeInactiveTransactionsLongRunningTrue = [];
+const closeInactiveTransactionsLongRunningFalse = [];
+const closeInactiveTransactionsRecyclingTrue = [];
+const closeInactiveTransactionsRecyclingFalse = [];
+const transaction_times = [];
+function main(instanceId,
+  databaseId,
+  projectId,
+  closeInactiveTransactions,
+  logging, methodName){
 async function longRunningTransactions(
   instanceId,
   databaseId,
@@ -194,37 +198,39 @@ function calculatePercentiles(latencies) {
   // Step 3: Calculate p90 (90th percentile)
   const p90Index = Math.floor(0.9 * sortedLatencies.length);
   const p90Latency = sortedLatencies[p90Index];
-
-  // Step 3: Calculate p99 (99th percentile)
-  const p99Index = Math.floor(0.99 * sortedLatencies.length);
-  const p99Latency = sortedLatencies[p99Index];
-
-  return {
-    p50: p50Latency,
-    p90: p90Latency,
-    p99: p99Latency
-  };
+   // Step 3: Calculate p99 (99th percentile)
+   const p99Index = Math.floor(0.99 * sortedLatencies.length);
+   const p99Latency = sortedLatencies[p99Index];
+ 
+   return {
+     p50: p50Latency,
+     p90: p90Latency,
+     p99: p99Latency
+   };
 }
 
-async function runSequentially(method, closeInactiveTransactions, logging) {
-  closeInactiveTransactionsLongRunningTrue = [];
-  closeInactiveTransactionsLongRunningFalse = [];
-  closeInactiveTransactionsRecyclingTrue = [];
-  closeInactiveTransactionsRecyclingFalse = [];
-  transaction_times = [];
+async function runSequentially(method) {
   for (let i = 0; i < 25; i++) {
     // change function and options as per requirement
+    if(closeInactiveTransactions=="true"){
+      closeInactiveTransactions=true
+    }
+    else closeInactiveTransactions=false
+    if(logging=="true"){
+      logging=true
+    }
+    else logging=false
     await method(
-      'astha-testing',
-      'abcd',
-      'span-cloud-testing',
+      instanceId,
+      databaseId,
+      projectId,
       closeInactiveTransactions,
       logging
     );
   }
 
   // After all runs are complete, print the contents of closeInactiveTransactionsLongRunningFalse
-  console.log(`Results for logging ${logging} and closeInactiveTransaction ${closeInactiveTransactions}:`)
+  console.log('Results:');
   closeInactiveTransactionsLongRunningFalse.forEach(val => {
     console.log(val);
   });
@@ -239,32 +245,24 @@ async function runSequentially(method, closeInactiveTransactions, logging) {
   });
 }
 
-const bools= [true, false]
-for (let i = 0; i<bools.length; i++){
-  for (let j = 0; j<bools.length; j++){
-    console.log(`method: longRunningTransactions`)
-    await runSequentially(longRunningTransactions, bools[i], bools[j])
-    .then(() => {
-      const percentiles = calculatePercentiles(transaction_times);
-      console.log(`p50 Latency: ${percentiles.p50}`);
-      console.log(`p90 Latency: ${percentiles.p90}`);
-      console.log(`p99 Latency: ${percentiles.p99}`);
-    })
-    .catch(error => {
-      console.error('Error:', error);
-    });
-    console.log(`method: recycledTransactions`)
-    await runSequentially(recycledTransactions, bools[i], bools[j])
-    .then(() => {
-      const percentiles = calculatePercentiles(transaction_times);
-      console.log(`p50 Latency: ${percentiles.p50}`);
-      console.log(`p90 Latency: ${percentiles.p90}`);
-      console.log(`p99 Latency: ${percentiles.p99}`);
-    })
-    .catch(error => {
-      console.error('Error:', error);
-    });
-  }
+let method =longRunningTransactions
+if(methodName == "recycledTransactions"){
+  method=recycledTransactions
+}
+runSequentially(method)
+  .then(() => {
+    const percentiles = calculatePercentiles(transaction_times);
+    console.log(`p50 Latency: ${percentiles.p50}`);
+    console.log(`p90 Latency: ${percentiles.p90}`);
+    console.log(`p99 Latency: ${percentiles.p99}`);
+  })
+  .catch(error => {
+    console.error('Error:', error);
+  });
 }
 
-
+process.on('unhandledRejection', err => {
+  console.error(err.message);
+  process.exitCode = 1;
+});
+main(...process.argv.slice(2));
