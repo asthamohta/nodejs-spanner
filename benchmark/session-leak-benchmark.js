@@ -16,11 +16,11 @@
 
 'use strict';
 
-const closeInactiveTransactionsLongRunningTrue = [];
-const closeInactiveTransactionsLongRunningFalse = [];
-const closeInactiveTransactionsRecyclingTrue = [];
-const closeInactiveTransactionsRecyclingFalse = [];
-const transaction_times = [];
+let closeInactiveTransactionsLongRunningTrue = [];
+let closeInactiveTransactionsLongRunningFalse = [];
+let closeInactiveTransactionsRecyclingTrue = [];
+let closeInactiveTransactionsRecyclingFalse = [];
+let transaction_times = [];
 
 async function longRunningTransactions(
   instanceId,
@@ -195,26 +195,36 @@ function calculatePercentiles(latencies) {
   const p90Index = Math.floor(0.9 * sortedLatencies.length);
   const p90Latency = sortedLatencies[p90Index];
 
+  // Step 3: Calculate p99 (99th percentile)
+  const p99Index = Math.floor(0.99 * sortedLatencies.length);
+  const p99Latency = sortedLatencies[p99Index];
+
   return {
     p50: p50Latency,
     p90: p90Latency,
+    p99: p99Latency
   };
 }
 
-async function runSequentially() {
+async function runSequentially(method, closeInactiveTransactions, logging) {
+  closeInactiveTransactionsLongRunningTrue = [];
+  closeInactiveTransactionsLongRunningFalse = [];
+  closeInactiveTransactionsRecyclingTrue = [];
+  closeInactiveTransactionsRecyclingFalse = [];
+  transaction_times = [];
   for (let i = 0; i < 25; i++) {
     // change function and options as per requirement
-    await longRunningTransactions(
+    await method(
       'astha-testing',
       'abcd',
       'span-cloud-testing',
-      false,
-      false
+      closeInactiveTransactions,
+      logging
     );
   }
 
   // After all runs are complete, print the contents of closeInactiveTransactionsLongRunningFalse
-  console.log('Results:');
+  console.log(`Results for logging ${logging} and closeInactiveTransaction ${closeInactiveTransactions}:`)
   closeInactiveTransactionsLongRunningFalse.forEach(val => {
     console.log(val);
   });
@@ -229,12 +239,32 @@ async function runSequentially() {
   });
 }
 
-runSequentially()
-  .then(() => {
-    const percentiles = calculatePercentiles(transaction_times);
-    console.log(`p50 Latency: ${percentiles.p50}`);
-    console.log(`p90 Latency: ${percentiles.p90}`);
-  })
-  .catch(error => {
-    console.error('Error:', error);
-  });
+const bools= [true, false]
+for (let i = 0; i<bools.length; i++){
+  for (let j = 0; j<bools.length; j++){
+    console.log(`method: longRunningTransactions`)
+    await runSequentially(longRunningTransactions, bools[i], bools[j])
+    .then(() => {
+      const percentiles = calculatePercentiles(transaction_times);
+      console.log(`p50 Latency: ${percentiles.p50}`);
+      console.log(`p90 Latency: ${percentiles.p90}`);
+      console.log(`p99 Latency: ${percentiles.p99}`);
+    })
+    .catch(error => {
+      console.error('Error:', error);
+    });
+    console.log(`method: recycledTransactions`)
+    await runSequentially(recycledTransactions, bools[i], bools[j])
+    .then(() => {
+      const percentiles = calculatePercentiles(transaction_times);
+      console.log(`p50 Latency: ${percentiles.p50}`);
+      console.log(`p90 Latency: ${percentiles.p90}`);
+      console.log(`p99 Latency: ${percentiles.p99}`);
+    })
+    .catch(error => {
+      console.error('Error:', error);
+    });
+  }
+}
+
+
